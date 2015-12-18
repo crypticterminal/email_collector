@@ -8,7 +8,7 @@ Helper utility for getting a number of email addresses based on a search request
 Install the gem using the following command:
 
 ```sh
-    $ gem install email_collector
+$ gem install email_collector
 ```
 
 ## Usage
@@ -23,16 +23,8 @@ emails = EmailCollector.collect('site:github.com', 'gmail.com')
 
 You can verify emails further by querring the correspondent mail server.
 	
-Please send questions to [alexei.fedotov@gmail.com](mailto:alexei.fedotov@gmail.com).
+Please send questions to [alexei.fedotov@gmail.com](mailto:alexei.fedotov@gmail.com). Contribute via pull requests.
 
 ## Contributors
 
-* Alexei Fedotov ([https://github.com/leshikus]())
-
-## Contributing yourself
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+* Alexei Fedotov ([leshikus](https://github.com/leshikus))
