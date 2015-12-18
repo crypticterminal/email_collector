@@ -1,15 +1,12 @@
-require "google-search"
-require "logger"
-require "email_collector/version"
+require 'google-search'
+require 'logger'
 
 module EmailCollector
-
-  def initialize()
-    @logger = Logger.new $stdout
-  end
+  @logger = Logger.new $stdout
+  @logger.debug('logger initialized')
 
   def self.collect(searchReq, domain)
-    logger.debug("searching for #{searchReq}")
+    @logger.debug("searching for #{searchReq}")
     Google::Search::Web.new do |search|
       search.query = searchReq
       search.size = :large
