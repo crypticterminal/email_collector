@@ -5,7 +5,7 @@ require "email_collector/version"
 module EmailCollector
 
   def initialize()
-    @logger = Logger.new 'email_collector.log'
+    @logger = Logger.new $stdout
   end
 
   def self.collect(searchReq, domain)

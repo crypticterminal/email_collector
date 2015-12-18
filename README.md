@@ -13,7 +13,7 @@ $ gem install email_collector
 
 ## Usage
 
-To collect a number of emails email_collector sends a specified request to Google and parses response pages. You can specify domain of a specific email provider (e.g. gmail.com, outlook.com) to improve matching.
+To collect a number of emails email_collector sends a specified request to Google and parses response pages. You can specify domain of a specific email provider (e.g. gmail.com, outlook.com) to improve matching. Of course, you should be connected to Internet to be able to send queries to Google.
 
 For example, to get a number of developer emails, you can run
 
