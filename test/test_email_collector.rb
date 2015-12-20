@@ -9,5 +9,10 @@ class EmailCollectorTest < Minitest::Unit::TestCase
     assert_equal "name@domain.moscow", EmailCollector.filter_at("name (at) domain.moscow")
     assert_equal "name@domain.moscow", EmailCollector.filter_at("name+at+domain.moscow")
   end
+  
+  def test_search
+  @logger = Logger.new $stderr
+  @logger.debug(EmailCollector.search('dataved alexei.fedotov', :small))
+  end
 
 end
