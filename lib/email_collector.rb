@@ -10,7 +10,7 @@ module EmailCollector
     Google::Search::Web.new do |search|
       search.query = searchReq
       search.size = :large
-    end.each { |item| logger.debug item.title }
+    end.each { |item| @logger.debug item.title }
   end
 
 end
