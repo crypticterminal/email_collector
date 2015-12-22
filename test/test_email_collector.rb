@@ -26,6 +26,7 @@ class EmailCollectorTest < Minitest::Unit::TestCase
   AUTHOR_EMAIL = 'alexei.fedotov@gmail.com'
   EMAILS = [AUTHOR_EMAIL]
   PATTERNS = ['wikipedia']
+  
   def test_search
     return # quick return
     EmailCollector.set_size(:small);
@@ -39,22 +40,8 @@ class EmailCollectorTest < Minitest::Unit::TestCase
 	end
   end
   
-  def test_collect
-    return # quick return
-    EmailCollector.set_size(:small);
-    
-    EMAILS.each do |email|
-      res = EmailCollector.collect("\"#{email}\"")
-      #@@logger.debug(res)
-  	  assert(res.include? email)
-      res = EmailCollector.collect("\"#{email}\"", get_domain(email))
-      #@@logger.debug(res)
-      assert(res.include? email)
-	end
-  end
-
   def test_collect_plain
-    # return # quick return
+    return # quick return
     EmailCollector.set_size(:small);
     
     res = EmailCollector.collect_plain("openmeetings #{AUTHOR_EMAIL}", get_domain(AUTHOR_EMAIL)).flatten
@@ -71,4 +58,30 @@ class EmailCollectorTest < Minitest::Unit::TestCase
     assert(res.include? AUTHOR_EMAIL)
   end
   
+  def test_collect
+    return # quick return
+    EmailCollector.set_size(:small);
+    EmailCollector.set_keywords(['harmony']);
+    
+    EMAILS.each do |email|
+      res = EmailCollector.collect("\"#{email}\"")
+      #@@logger.debug(res)
+  	  assert(res.include? email)
+      res = EmailCollector.collect("\"#{email}\"", get_domain(email))
+      #@@logger.debug(res)
+      assert(res.include? email)
+	end
+  end
+
+  # This is actually usage example
+  def test_collect_example
+    #return # quick return
+    # EmailCollector.set_size(:small)
+    # EmailCollector.set_keywords([''])
+    
+    # res = EmailCollector.collect('site:moikrug.ru', 'yandex.ru')
+    # res = EmailCollector.collect('site:github.com', 'gmail.com')
+    # @@logger.debug(res)
+  end
+
 end

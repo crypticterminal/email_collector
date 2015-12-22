@@ -5,7 +5,7 @@ module EmailCollector
   @logger = Logger.new $stderr
   @logger.debug('logger initialized')
   
-  @size = :huge
+  @size = :large
   def self.set_size(size)
     @size = size
   end
@@ -18,18 +18,20 @@ module EmailCollector
   end
 
   def self.collect(searchReq, domain = nil)
-    @keywords.map { |keyword| collectPlain("#{searchReq} #{keyword}", domain) }.flatten.uniq.compact
+    @keywords.map { |keyword| collect_plain("#{searchReq} #{keyword}", domain) }.flatten.uniq.compact
   end
 
   def self.collect_plain(searchReq, domain = nil)
-    @logger.debug("searching for #{searchReq}")
-    @logger.debug("domain = #{domain}")
+    #@logger.debug("searching for #{searchReq}")
+    #@logger.debug("domain = #{domain}")
 	
 	if (domain)
-      search("#{searchReq} \"#{domain}\"") +
-        search("#{searchReq} \"at #{domain}\"").map do |context|
-        @logger.debug("context = #{context}")
-        context = filter_at_domain(context)
+      res = search("#{searchReq} \"#{domain}\"")
+      res_at = search("#{searchReq} \"at #{domain}\"")
+      
+      (res + res_at).map do |context|
+        #@logger.debug("context = #{context}")
+        context = filter_at_domain(context, domain)
         context.scan(/[a-z0-9._%+-]*[a-z0-9_%+]@#{Regexp.quote(domain)}/i)
       end
 	else

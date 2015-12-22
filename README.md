@@ -21,6 +21,16 @@ For example, to get a number of developer emails, you can run
 emails = EmailCollector.collect('site:github.com', 'gmail.com')
 ```
 
+or
+
+```sh
+$ irb
+require 'email_collector'
+EmailCollector.set_keywords([''])
+emails = EmailCollector.collect('site:moikrug.ru', 'yandex.ru')
+```
+
+
 You can verify emails further by querring the correspondent mail server.
 	
 Please send questions to [alexei.fedotov@gmail.com](mailto:alexei.fedotov@gmail.com). Contribute via pull requests.
