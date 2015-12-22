@@ -32,12 +32,19 @@ module EmailCollector
       search.query = searchReq
       search.size = size
     end.map do |item|
+      @logger.debug("URI = #{item.uri}")
       @logger.debug(item.content)
-      filter_at(item.content)
-    end
+      filter_b(filter_at(item.content)).split('...')
+    end.flatten
+  end
+
+  def self.filter_at(s)
+    s.gsub(/\s+/, ' ').gsub(/[^a-z0-9_.%+-]+[ae]t[^a-z0-9.@-]+|([_+-]+)[ae]t\1/i, '@')
   end
   
-  def self.filter_at(s)
-    s.gsub(/\s+/, ' ').gsub(/[^a-z0-9_.%+-]+[ae]t[^a-z0-9.@-]+|([_+-]+)[ae]t\1/i, '@');
+  # One can go fix google-search gem instead
+  def self.filter_b(s)
+    s.gsub(/<\/?b>/, '')
   end
+  
 end
