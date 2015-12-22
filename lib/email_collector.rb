@@ -4,6 +4,8 @@ require 'logger'
 module EmailCollector
   @logger = Logger.new $stderr
   @logger.debug('logger initialized')
+  
+  @size = :huge
    
   
   KEYWORDS = ['', 'mail', 'mailto', 'email', 'contacts', 'contact', 'address', 'login', 'author'];
@@ -25,12 +27,16 @@ module EmailCollector
 	end.uniq.compact
   end
   
-  def self.search(searchReq, size = :huge)
+  def self.setSize(size)
+    @size = size
+  end
+  
+  def self.search(searchReq)
     @logger.debug("searching for #{searchReq}")
 
     Google::Search::Web.new do |search|
       search.query = searchReq
-      search.size = size
+      search.size = @size
     end.map do |item|
       @logger.debug("URI = #{item.uri}")
       @logger.debug(item.content)
