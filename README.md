@@ -1,7 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/email_collector.png)](http://badge.fury.io/rb/email_collector)
 # Email Collector
 
-Helper utility for getting a number of email addresses based on a search request to Google.
+Helper utility for getting a number of email addresses based on a search request to Google. You may think of it as a search engine for emails.
 
 ## Installation
 
