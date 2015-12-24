@@ -26,7 +26,7 @@ or
 ```sh
 $ irb
 require 'email_collector'
-EmailCollector.set_keywords([''])
+EmailCollector.keywords = ['']
 emails = EmailCollector.collect('site:moikrug.ru', 'yandex.ru')
 => ["events@yandex.ru", "music@yandex.ru", "company@yandex.ru", "api@yandex.ru"]
 
