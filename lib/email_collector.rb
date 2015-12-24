@@ -6,15 +6,14 @@ module EmailCollector
   @logger.debug('logger initialized')
   
   @size = :large
-  def self.set_size(size)
-    @size = size
+  def self.size=(s)
+    @size = s
   end
   
   @keywords = ['', 'mail', 'mailto', 'email', 'contacts', 'contact', 'address', 'login', 'author', 'googletalk', 'gtalk', 
     'gmail', 'googlemail', 'yahoo', 'hotspot', 'outlook', 'yandex'];
-
-  def self.set_keywords(keywords)
-    @keywords = keywords
+  def self.keywords=(k)
+    @keywords = k
   end
 
   def self.collect(searchReq, domain = nil)
@@ -26,8 +25,8 @@ module EmailCollector
     #@logger.debug("domain = #{domain}")
 	
 	if (domain)
-      res = search("#{searchReq} \"#{domain}\"")
-      res_at = search("#{searchReq} \"at #{domain}\"")
+      res = google_search("#{searchReq} \"#{domain}\"")
+      res_at = google_search("#{searchReq} \"at #{domain}\"")
       
       (res + res_at).map do |context|
         #@logger.debug("context = #{context}")
@@ -35,14 +34,14 @@ module EmailCollector
         context.scan(/[a-z0-9._%+-]*[a-z0-9_%+]@#{Regexp.quote(domain)}/i)
       end
 	else
-      search(searchReq).map do |context|
+      google_search(searchReq).map do |context|
         @logger.debug("context = #{context}")
         context.scan(/[a-z0-9._%+-]*[a-z0-9_%+]@(?:[a-z0-9.-]+\.)+[a-z0-9]{2,}/i)
       end
 	end
   end
   
-  def self.search(searchReq)
+  def self.google_search(searchReq)
     @logger.debug("searching for #{searchReq}")
 
     Google::Search::Web.new do |search|
@@ -57,20 +56,22 @@ module EmailCollector
     end.flatten
   end
 
+  # Replaces 'at' with @
   def self.filter_at(s)
     s.gsub(/\s+/, ' ').gsub(/[^a-z0-9_.%+-]+[ae]t[^a-z0-9.@-]+|([_+-]+)[ae]t\1/i, '@')
   end
-  
+
+  # Replaces ***gmail.com with @gmail.com
   def self.filter_at_domain(s, domain)
     s.gsub(/[^a-z0-9_%+-]+#{Regexp.quote(domain)}/, '@' + domain)
   end
   
-  # Transform gmail!com addresses
+  # Transforms gmail!com addresses
   def self.filter_exclam(s)
     s.gsub(/[!:]/, '.')
   end
   
-  # One can go fix google-search gem instead
+  # Fixes google-search gem bold outline
   def self.filter_b(s)
     s.gsub(/<\/?b>/, '')
   end

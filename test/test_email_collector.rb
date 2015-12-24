@@ -2,11 +2,8 @@ require 'minitest/autorun'
 require 'email_collector'
 
 class EmailCollectorTest < Minitest::Unit::TestCase
+  SKIP_SLOW_TESTS = true
   @@logger = Logger.new $stderr
-  
-  def get_domain(email)
-    return email.gsub(/.*@/, '')
-  end
 
   def test_filter_at
     assert_equal "name@domain.com", EmailCollector.filter_at("name at domain.com")
@@ -28,11 +25,11 @@ class EmailCollectorTest < Minitest::Unit::TestCase
   PATTERNS = ['wikipedia']
   
   def test_search
-    return # quick return
-    EmailCollector.set_size(:small);
+    return if SKIP_SLOW_TESTS
+    EmailCollector.size = :small
     
     (PATTERNS + EMAILS).each do |pattern|
-  	  x = EmailCollector.search("\"#{pattern}\"").join('').gsub(/ /, '')
+  	  x = EmailCollector.google_search("\"#{pattern}\"").join('').gsub(/ /, '')
       #@@logger.debug("PATTERN = #{pattern}")
       #@@logger.debug("x = " << x)
       #@@logger.debug(x.match(/#{pattern}/i))
@@ -41,8 +38,8 @@ class EmailCollectorTest < Minitest::Unit::TestCase
   end
   
   def test_collect_plain
-    return # quick return
-    EmailCollector.set_size(:small);
+    return if SKIP_SLOW_TESTS
+    EmailCollector.size = :small
     
     res = EmailCollector.collect_plain("openmeetings #{AUTHOR_EMAIL}", get_domain(AUTHOR_EMAIL)).flatten
     @@logger.debug(res)
@@ -50,18 +47,19 @@ class EmailCollectorTest < Minitest::Unit::TestCase
   end
   
   def test_collect_plain_nodomain
-    return # quick return
-    EmailCollector.set_size(:small);
+    return if SKIP_SLOW_TESTS
+    EmailCollector.size = :small
     
     res = EmailCollector.collect_plain("openmeetings #{AUTHOR_EMAIL}").flatten
-    @@logger.debug(res)
+    #@@logger.debug(res)
     assert(res.include? AUTHOR_EMAIL)
   end
   
   def test_collect
-    return # quick return
-    EmailCollector.set_size(:small);
-    EmailCollector.set_keywords(['harmony']);
+    return if SKIP_SLOW_TESTS
+    
+    EmailCollector.size = :small
+    EmailCollector.keywords = ['harmony']
     
     EMAILS.each do |email|
       res = EmailCollector.collect("\"#{email}\"")
@@ -73,15 +71,9 @@ class EmailCollectorTest < Minitest::Unit::TestCase
 	end
   end
 
-  # This is actually usage example
-  def test_collect_example
-    #return # quick return
-    # EmailCollector.set_size(:small)
-    # EmailCollector.set_keywords([''])
-    
-    # res = EmailCollector.collect('site:moikrug.ru', 'yandex.ru')
-    # res = EmailCollector.collect('site:github.com', 'gmail.com')
-    # @@logger.debug(res)
+  private
+  def get_domain(email)
+    return email.gsub(/.*@/, '')
   end
 
 end
