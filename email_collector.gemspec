@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.email         = ['alexei.fedotov@gmail.com']
   gem.description   = %q{Collects emails from Google}
   gem.summary       = %q{Sends search requests to Google and parses responses for emails}
-  gem.homepage      = 'http://www.dataved.ru/2010/09/add-your-friends-to-google.html'
+  gem.homepage      = 'https://github.com/leshikus/email_collector'
   
   gem.files         = `git ls-files`.split($/)
   gem.executables   = []
